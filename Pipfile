@@ -12,6 +12,9 @@ flake8 = "*"
 ipython = "*"
 ipdb = "*"
 mycli = "*"
+pytest-factoryboy = "*"
+pytest-django = "*"
+pytest-watch = "*"
 
 [packages]
 # psycopg2-binary = "*", not needed for now.
