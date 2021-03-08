@@ -69,10 +69,6 @@ class GreenDomainViewset(viewsets.ReadOnlyModelViewSet):
         if urls is not None:
             queryset = GreenDomain.objects.filter(url__in=urls)
 
-        # import ipdb
-
-        # ipdb.set_trace()
-
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -111,6 +107,12 @@ class GreenDomainViewset(viewsets.ReadOnlyModelViewSet):
             # log_the_check asynchronously
             # self.log_check_async(site_check)
 
+        # match the old API request
+        if not instance.green:
+            return response.Response(
+                {"green": False, "url": instance.url, "data": True}
+            )
+
         serializer = self.get_serializer(instance)
         return response.Response(serializer.data)
 
@@ -119,6 +121,10 @@ class GreenDomainViewset(viewsets.ReadOnlyModelViewSet):
         Return a Green Domain object from doing a lookup.
         """
         res = self.checker.check_domain(domain)
+
+        if not res.green:
+            return res
+
         hosting_provider = Hostingprovider.objects.get(pk=res.hosting_provider_id)
 
         # return a domain result, but don't save it,
