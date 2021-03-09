@@ -25,7 +25,12 @@ from .serializers import (
 )
 from .domain_check import GreenDomainChecker
 
+
+import redis
+
 logger = logging.getLogger(__name__)
+
+redis_cache = redis.Redis(host="localhost", port=6379, db=0)
 
 
 class GreenDomainViewset(viewsets.ReadOnlyModelViewSet):
@@ -84,6 +89,12 @@ class GreenDomainViewset(viewsets.ReadOnlyModelViewSet):
         url = self.kwargs.get("url")
         is_valid_tld = tld.is_tld(url)
         domain = None
+
+        cache_hit = redis_cache.get(f"domains:{url}")
+        if cache_hit:
+            import json
+
+            return response.Response(json.loads(cache_hit))
 
         # TODO turn this into a function
         # not a domain, try ip address:
