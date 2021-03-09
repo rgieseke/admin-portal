@@ -180,7 +180,7 @@ REST_FRAMEWORK = {
 
 DRAMATIQ_BROKER = {
     "BROKER": "dramatiq.brokers.rabbitmq.RabbitmqBroker",
-    "OPTIONS": {"url": RABBITMQ_URL,},
+    "OPTIONS": {"url": RABBITMQ_URL},
     "MIDDLEWARE": [
         "dramatiq.middleware.Prometheus",
         "dramatiq.middleware.AgeLimit",
