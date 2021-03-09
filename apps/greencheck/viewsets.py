@@ -1,6 +1,7 @@
 import csv
 import logging
 import socket
+import json
 from io import TextIOWrapper
 
 import tld
@@ -87,14 +88,15 @@ class GreenDomainViewset(viewsets.ReadOnlyModelViewSet):
         """
         Fetch entry matching the provided URL, like a 'detail' view
         """
+        from .tasks import process_log
+
         url = self.kwargs.get("url")
         is_valid_tld = tld.is_tld(url)
         domain = None
 
         cache_hit = redis_cache.get(f"domains:{url}")
         if cache_hit:
-            import json
-
+            process_log.send(domain)
             return response.Response(json.loads(cache_hit))
 
         # TODO turn this into a function
@@ -114,7 +116,6 @@ class GreenDomainViewset(viewsets.ReadOnlyModelViewSet):
         instance = GreenDomain.objects.filter(url=domain).first()
 
         if not instance:
-            from .tasks import process_log
 
             try:
                 instance = self.checker.perform_full_lookup(domain)
