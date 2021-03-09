@@ -14,13 +14,13 @@ ipython = "*"
 ipdb = "*"
 # needed because 0.18 breaks tab completion
 jedi = "==0.17.2"
-mycli = "*"
 werkzeug = "*"
 pytest = "*"
 pytest-django = "*"
 pytest-watch = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
+iredis = "*"
 
 [packages]
 # psycopg2-binary = "*", not needed for now.
@@ -56,3 +56,6 @@ awscli-plugin-endpoint = "*"
 boto3 = "*"
 ipwhois = "*"
 django-cors-headers = "*"
+diskcache = "*"
+django-redis = "*"
+redis = "*"
