@@ -269,6 +269,9 @@ SITE_URL = "https://admin.thegreenwebfoundation.org"
 EQUINIX_PROVIDER_ID = 1234
 EQUINIX_DATASET_ENDPOINT = "https://tgwf-web-app-live.s3.nl-ams.scw.cloud/data-imports/equinix.ips.and.asns.2022-02-25.txt"
 
+GOOGLE_PROVIDER_ID = 2345
+GOOGLE_DATASET_ENDPOINT = "https://www.gstatic.com/ipranges/cloud.json"
+
 TAGGIT_CASE_INSENSITIVE = True
 
 INTERNAL_IPS = [
